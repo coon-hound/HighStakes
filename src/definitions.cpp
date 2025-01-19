@@ -21,8 +21,6 @@ odom 		Odom;
 optical     Color(port::COLOR);
 distance	LadybrownDistance(port::LB_DISTANCE);
 
-pneumatics	Mogomech(Brain.ThreeWirePort.H);   
-
 int 		Right_Power = 0;
 int			Left_Power = 0;
 
@@ -31,6 +29,8 @@ double prev_left_position = 0;
 
 PID			Forward_PID(6.5, 10.0, 30.0, -100, 100, .5, 100.0, 20.0, 5.0e-7);			
 PID 		Turn_PID(2.5, 1.0, 30.0, -100, 100, 5);
+
+pneumatics  Intake_Lift(INTAKE_LIFT);
 
 int 		Team_Color = RED;
 std::deque<Ring> ring_queue;
@@ -52,8 +52,8 @@ bool 		Ladybrown_Has_Ring = false;
 
 int 		Ladybrown_Arm_Height = -1;
 
+pneumatics	Mogomech(MOGO);   
 bool Toggle_Mogo = false;
-
 
 void MoveMotor(motor m, int pct) {
 	m.spin(fwd, 128 * pct, voltageUnits::mV);	

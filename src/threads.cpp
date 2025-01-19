@@ -38,20 +38,28 @@ int hook_helper_thread() {
                 // first reading
                 ini_hue = hue;
                 ring_queue.front().entered_color_range = true;
-            }
-            if (ini_hue != hue && ring_queue.front().entered_color_range && !ring_queue.front().color_checked) {
-                // second reading
                 bool isRed = detectRed(hue);
-                printf("hue = %d\n", hue);
-                if (isRed == true) {
+                if (isRed) {
                     ring_queue.front().color = RED;
-                }
-                else {
+                } else {
                     ring_queue.front().color = BLUE;
                 }
 
                 ring_queue.front().color_checked = true;
-            } 
+            }
+            // if (ini_hue != hue && ring_queue.front().entered_color_range && !ring_queue.front().color_checked) {
+            //     // second reading
+            //     bool isRed = detectRed(hue);
+            //     printf("hue = %d\n", hue);
+            //     if (isRed == true) {
+            //         ring_queue.front().color = RED;
+            //     }
+            //     else {
+            //         ring_queue.front().color = BLUE;
+            //     }
+
+            //     ring_queue.front().color_checked = true;
+            // } 
         }
 
         // pop rings
@@ -250,7 +258,7 @@ int drivetrain_thread() {
 int odom_thread() {
     while(1) {
         Odom.UpdatePosition(); 
-        printf("x = %f, y = %f, heading%f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+        // printf("x = %f, y = %f, heading%f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
 
         this_thread::sleep_for(10);
     }

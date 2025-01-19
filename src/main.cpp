@@ -52,12 +52,14 @@ int main() {
 
     bool prev_A_state = false;
 
+    int descore_state = 0;
+
     // Right_Power = 10;
     // Left_Power = 10;
     // this_thread::sleep_for(2000);
 
-    ForwardTillDestination(100.0, 100.0, 0); 
-    PIDForward(10);
+    // ForwardTillDestination(100.0, 100.0, 0); 
+    // PIDForward(10);
     
     // PIDTurn(90);
     
@@ -84,6 +86,12 @@ int main() {
         } else {
             Intake_Power = 1;
         } 
+
+        if (Controller.ButtonB.pressing()) {
+            Intake_Lift.close();
+        } else {
+            Intake_Lift.open();
+        }
 
         // mogo control code
         if (Controller.ButtonA.pressing() != prev_A_state && prev_A_state != 1){
@@ -119,8 +127,15 @@ int main() {
             if (Controller.ButtonL1.pressing()) {
                 printf("trigger\n");
                 macro_mode = 1;
-                Ladybrown_Arm_Height = DESCORE_HEIGHT;
+                descore_state ++;
+                printf("descore_state = %d\n", descore_state);
+                if (descore_state == 1) {
+                    Ladybrown_Arm_Height = DESCORE_HEIGHT;
+                } else if (descore_state >= 2) {
+                    Ladybrown_Arm_Height = DESCORE_TWO_HEIGHT;
+                }
             } else {
+                descore_state = 0;
                 macro_mode = 0;
             }
         }

@@ -29,8 +29,6 @@ extern motor       LeftMotor3;
 extern optical     Color;
 extern distance    LadybrownDistance;
 
-extern pneumatics  Mogomech;
-
 extern int         Team_Color;
 
 extern bool        Ring_Fired;
@@ -55,6 +53,8 @@ extern double prev_right_position;
 extern double prev_left_position;
 
 // intake
+
+extern pneumatics  Intake_Lift;
 
 extern int         Intake_Power;
 
@@ -98,6 +98,7 @@ extern PID ladybrown_pid;
 
 #define LOAD_HEIGHT 80
 #define DESCORE_HEIGHT 470
+#define DESCORE_TWO_HEIGHT 500
 #define FLOAT_HEIGHT 170
 
 #define LADYBROWN_DETECT_DISTANCE 200
@@ -113,6 +114,7 @@ extern void MoveMotor(motor m, int pct);
 
 // mogo
 
+extern pneumatics  Mogomech;
 extern bool Toggle_Mogo;
 
 #endif

@@ -2,6 +2,7 @@
 #define PORT_CONFIG_H
 
 #include <vex.h>
+#include <definitions.h>
 
 namespace port{
 	using namespace vex;
@@ -22,6 +23,10 @@ namespace port{
 	#define COLOR 			 PORT3
 	#define LB_DISTANCE  PORT5
 
+	#define MOGO 			 Brain.ThreeWirePort.H
+	#define INTAKE_LIFT		 Brain.ThreeWirePort.G
+
 	#define RADIO            PORT20
+
 };
 #endif
