@@ -12,11 +12,14 @@ class odom;
 
 extern brain       Brain;
 extern controller  Controller;
+extern timer       Timer;
+
 extern motor       Intake;
 extern motor       Ladybrown1;
 extern motor       Ladybrown2;
 
 extern odom        Odom; 
+extern inertial    Imu;
 
 extern motor       RightMotor1;
 extern motor       RightMotor2;
@@ -40,6 +43,9 @@ extern bool        Store_Mode_Move_Intake;
 
 // drivetrain
 
+extern bool Toggle_Doinker;
+extern pneumatics  Doinker;
+
 extern int Right_Power;
 extern int Left_Power;
 
@@ -55,6 +61,7 @@ extern double prev_left_position;
 // intake
 
 extern pneumatics  Intake_Lift;
+extern bool Toggle_Intake_Lift;
 
 extern int         Intake_Power;
 

@@ -25,6 +25,9 @@ namespace port{
 
 	#define MOGO 			 Brain.ThreeWirePort.H
 	#define INTAKE_LIFT		 Brain.ThreeWirePort.G
+	#define DOINKER			 Brain.ThreeWirePort.F
+
+	#define IMU				 PORT1
 
 	#define RADIO            PORT20
 

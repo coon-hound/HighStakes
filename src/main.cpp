@@ -9,12 +9,11 @@
 #include "vex.h"
 #include "port_config.h"
 #include "definitions.h"
-#include "autonfunctions.h"
+#include "auton_functions.h"
+#include "auton_task.h"
 #include "threads.h"
 #include "pid.h"
 #include <stdio.h>
-
-// wait 3 secs before moving the robot for the gyro to calibrate
 
 using namespace vex;
 
@@ -27,6 +26,12 @@ thread ODOM(odom_thread);
 
 int main() {
     printf("poop\n");
+
+    // wait 3 secs before moving the robot for the gyro to calibrate
+    Imu.calibrate();
+    while (Imu.isCalibrating()) {
+        this_thread::sleep_for(10);
+    }
     Color.setLightPower(100);
     Color.objectDetectThreshold(128);
     Color.setLight(ledState::on);
@@ -52,19 +57,69 @@ int main() {
 
     bool prev_A_state = false;
 
+    bool prev_X_state = false;
+
     int descore_state = 0;
+
+    this_thread::sleep_for(10);
 
     // Right_Power = 10;
     // Left_Power = 10;
     // this_thread::sleep_for(2000);
-
-    // ForwardTillDestination(100.0, 100.0, 0); 
-    // PIDForward(10);
+    // PIDForward(-10);
     
     // PIDTurn(90);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(90);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(90);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(90);
+
+    // this_thread::sleep_for(5000);
+    // PIDTurn(-90);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(-90);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(-90);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(-90);
+
+
+    // this_thread::sleep_for(5000);
+    // PIDTurn(30);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(60);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(90);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(180);
+
+    // this_thread::sleep_for(1000);
+    // PIDTurn(-30);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(-60);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(-90);
+    // this_thread::sleep_for(1000);
+    // PIDTurn(180);
+
+    // PIDForward(10);
+
+
+    // ForwardTillDestination(20, 28, -50);
+
+    // printf("heading = %f\n", Odom.GetHeadingDegrees());
+    // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(0, -500));
+    // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(-500, 0));
+    // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(500, 0));
+    // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(0, 500));
+
+    BlueRing();
+
     
     // while (1) {
-    //     ForwardWithCorrection(20, 0, 1.0, 10);
+    //     ForwardWithCorrection(100, 30, 1.0, 10);
     //     this_thread::sleep_for(10);
     // }
     // Right_Power = 0;
@@ -88,9 +143,15 @@ int main() {
         } 
 
         if (Controller.ButtonB.pressing()) {
-            Intake_Lift.close();
+            Toggle_Intake_Lift = 1;
         } else {
-            Intake_Lift.open();
+            Toggle_Intake_Lift = 0;
+        }
+
+        if (Controller.ButtonX.pressing()) {
+            Toggle_Doinker = 1;
+        } else {
+            Toggle_Doinker = 0;
         }
 
         // mogo control code
@@ -115,7 +176,6 @@ int main() {
 
         if(Controller.ButtonL1.pressing() != prev_l1_state && !prev_l1_state) {
             if (Controller.ButtonL2.pressing()) {
-                printf("trigger\n");
                 macro_mode = 1;
                 Ladybrown_Arm_Height = LOAD_HEIGHT;
             } else {
@@ -125,10 +185,8 @@ int main() {
         
         if(Controller.ButtonL2.pressing() != prev_l2_state && !prev_l2_state) {
             if (Controller.ButtonL1.pressing()) {
-                printf("trigger\n");
                 macro_mode = 1;
                 descore_state ++;
-                printf("descore_state = %d\n", descore_state);
                 if (descore_state == 1) {
                     Ladybrown_Arm_Height = DESCORE_HEIGHT;
                 } else if (descore_state >= 2) {

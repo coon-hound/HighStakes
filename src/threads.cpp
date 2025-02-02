@@ -89,10 +89,25 @@ int hook_helper_thread() {
 }
 
 int hook_thread() {
+    double prev_intake_pos = -50;
+    double intake_start_time = 0;
+    double prev_intake_power = 0;
     while (1) {
         if (!Ring_Fired) {
             // normal movement
             // store the ring at a stopping position
+            // anti-jam
+
+            if (Intake_Power > 10 && prev_intake_power <= 10) {
+                intake_start_time = Timer.time();
+            }
+
+            // if (Intake_Power > 10 && fabs(intake_pos - prev_intake_pos) < .001 && Timer.time() - intake_start_time > 1000) {
+            //     printf("intake_pos = %f, prev_intake_pos = %f\n", intake_pos, prev_intake_pos);
+            //     printf("delta = %f\n", intake_pos - prev_intake_pos);
+            //     MoveMotor(Intake, -100);
+            //     this_thread::sleep_for(250);
+            // }
             if (Store_Mode && Intake_Power > 0 && !ring_queue.empty() && ring_queue.back().getPos() > period + 60) {
                 MoveMotor(Intake, 1);
             }
@@ -155,7 +170,14 @@ int hook_thread() {
 
         }
         
+        if (Toggle_Intake_Lift) {
+            Intake_Lift.close();
+        } else {
+            Intake_Lift.open();
+        }
 
+        prev_intake_pos = intake_pos;
+        prev_intake_power = Intake_Power;
 
         this_thread::sleep_for(10);
     }
@@ -166,7 +188,8 @@ int hook_thread() {
 /*
 --------------------------------------------------- BUG ----------------------------------------
 If we lift manually early before the feeding has finished will it be 
-overwritten by the lb thread to store height?*/
+overwritten by the lb thread to store height?
+*/
 
 int lb_thread() {
     double prev_Ladybrown_Pos = 0;
@@ -243,11 +266,14 @@ int drivetrain_thread() {
 
         if (Toggle_Mogo) {
             Mogomech.open();
-            Mogomech.set(true);
         } else {
-
             Mogomech.close();
-            Mogomech.set(false);
+        }
+
+        if (Toggle_Doinker) {
+            Doinker.open();
+        } else {
+            Doinker.close();
         }
 
         this_thread::sleep_for(10);
@@ -258,7 +284,7 @@ int drivetrain_thread() {
 int odom_thread() {
     while(1) {
         Odom.UpdatePosition(); 
-        // printf("x = %f, y = %f, heading%f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+        printf("x = %f, y = %f, heading%f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
 
         this_thread::sleep_for(10);
     }

@@ -4,6 +4,12 @@ using namespace vex;
 
 brain       Brain;
 controller  Controller;
+
+timer       Timer;
+
+pneumatics  Doinker(DOINKER);
+bool Toggle_Doinker = false;
+
 motor       Intake(port::INTAKE, ratio6_1, true);
 motor 		Ladybrown1(port::LB1, ratio18_1, true);
 motor 		Ladybrown2(port::LB2, ratio18_1, false);
@@ -17,6 +23,7 @@ motor       LeftMotor2(port::LEFT_MOTOR2, ratio6_1, true);
 motor       LeftMotor3(port::LEFT_MOTOR3, ratio6_1, false);
 
 odom 		Odom;
+inertial    Imu(port::IMU);
 
 optical     Color(port::COLOR);
 distance	LadybrownDistance(port::LB_DISTANCE);
@@ -27,10 +34,11 @@ int			Left_Power = 0;
 double prev_right_position = 0;
 double prev_left_position = 0;
 
-PID			Forward_PID(6.5, 10.0, 30.0, -100, 100, .5, 100.0, 20.0, 5.0e-7);			
-PID 		Turn_PID(2.5, 1.0, 30.0, -100, 100, 5);
-
+PID			Forward_PID(6.5, 25.0, 30.0, -100, 100, 1.0, 100.0, 20.0, 0.2);			
+PID 		Turn_PID(4.00, 10.0, 30.0, -100, 100, 3, 100.0, 20.0, 0.2);
+// PID 		Turn_PID(3.50, 0.0, 30.0, -100, 100, 3);
 pneumatics  Intake_Lift(INTAKE_LIFT);
+bool Toggle_Intake_Lift = false;
 
 int 		Team_Color = RED;
 std::deque<Ring> ring_queue;

@@ -1,4 +1,5 @@
 #include "pid.h"
+#include <stdio.h>
 #include <algorithm>
 #include <cmath>
 
@@ -60,8 +61,13 @@ double PID::calculate(double measurement) {
 double PID::calculate_with_limits(double measurement) {
     double error = setpoint - measurement;
     
+    // Normalize error to -180 to +180 range
+    while (error > 180) error -= 360;
+    while (error < -180) error += 360;
+    
     double P = kp * error;
-
+    
+    // Calculate I term first
     if (fabs(P) > I_range || fabs(error) < error_tolerance || error_sum * error <= 0) {
         error_sum = 0;
     }
@@ -69,22 +75,24 @@ double PID::calculate_with_limits(double measurement) {
         error_sum += error;
     }
     
+    double I = ki * error_sum;
+    
+    // Apply I term limits after calculating it
     if (fabs(I) > I_max) {
         I = sign(I) * I_max; 
     }
-
-    double I = ki * error_sum;
    
     double D = kd * (error - last_error);
     last_error = error;
 
-    // if speed isn't too high
-    if (fabs(error) < error_tolerance && D < D_tolerance)  {
+    // Check if we've arrived at target
+    if (fabs(error) < error_tolerance && fabs(D) < D_tolerance)  {
         arrived = 1; 
     }
 
     double output = P + I + D;
     
+    // Apply output limits
     if (output > output_max) {
         output = output_max;
     }
