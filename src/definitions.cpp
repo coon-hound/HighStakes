@@ -4,7 +4,6 @@ using namespace vex;
 
 brain       Brain;
 controller  Controller;
-
 timer       Timer;
 
 pneumatics  Doinker(DOINKER);

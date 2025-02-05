@@ -234,6 +234,7 @@ int lb_thread() {
             }
         } else {
             // pid control
+            ladybrown_pid.setSetpoint(Ladybrown_Arm_Height);
             Ladybrown_Power = ladybrown_pid.calculate(ladybrown_pos);
             MoveMotor(Ladybrown1, Ladybrown_Power);
             MoveMotor(Ladybrown2, Ladybrown_Power);
@@ -284,6 +285,8 @@ int drivetrain_thread() {
 int odom_thread() {
     while(1) {
         Odom.UpdatePosition(); 
+
+        Odom.SetCornerPosition();
         printf("x = %f, y = %f, heading%f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
 
         this_thread::sleep_for(10);

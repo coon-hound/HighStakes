@@ -18,7 +18,7 @@ namespace port{
 	#define INTAKE           PORT4
 
 	#define LB1				 PORT8 
-	#define LB2				 PORT18 
+	#define LB2				 PORT11 
 
 	#define COLOR 			 PORT3
 	#define LB_DISTANCE  PORT5

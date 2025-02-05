@@ -13,6 +13,8 @@ private:
     
     // Robot physical properties
     static constexpr double TRACK_WIDTH = 13.62; // inches
+    static constexpr double ROBOT_WIDTH = 16.0;
+    static constexpr double ROBOT_LENGTH = 16.5;
     
     double x;
     double y;
@@ -36,6 +38,7 @@ public:
     double GetHeadingRadians();
     double GetHeadingDegrees();
     void SetPosition(double new_x, double new_y, double new_heading_degrees);
+    void SetCornerPosition();
     void ResetPosition();
     double GetDistanceToPoint(double target_x, double target_y);
     double GetAngleToPoint(double target_x, double target_y);
