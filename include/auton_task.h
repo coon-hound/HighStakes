@@ -5,6 +5,6 @@ void AutonSkills();
 void BlueMogo();
 void BlueRing();
 
-void OrientationTest();
+void RedRing();
 
 #endif // AUTON_TASK_H

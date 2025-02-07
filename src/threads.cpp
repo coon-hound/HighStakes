@@ -20,7 +20,7 @@ int hook_helper_thread() {
     while (1) {
         // if (!(!ring_queue.empty() && ring_queue.front().hooked_stage == stage) && hook_pos > 500 && hook_pos < 950 && Color.isNearObject()) {
 
-        // push rings
+        // push rings, make sure to push above position 700 so that the previous ring clears the sensor. 
         if (!(!ring_queue.empty() && ring_queue.front().hooked_stage == stage) && hook_pos > 700 && Color.isNearObject()) {
             Ring R;
 
@@ -30,7 +30,7 @@ int hook_helper_thread() {
         }
 
 // 650 - 950
-
+        
         if (!ring_queue.empty() && ring_queue.front().getPos() > 400 && ring_queue.front().getPos() < 950) {
             // always take the second reading of color to ensure accuracy
             int hue = Color.hue();
@@ -286,8 +286,7 @@ int odom_thread() {
     while(1) {
         Odom.UpdatePosition(); 
 
-        Odom.SetCornerPosition();
-        printf("x = %f, y = %f, heading%f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+        // printf("x = %f, y = %f, heading%f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
 
         this_thread::sleep_for(10);
     }

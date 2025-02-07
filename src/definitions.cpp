@@ -39,7 +39,7 @@ PID 		Turn_PID(4.00, 10.0, 30.0, -100, 100, 3, 100.0, 20.0, 0.2);
 pneumatics  Intake_Lift(INTAKE_LIFT);
 bool Toggle_Intake_Lift = false;
 
-int 		Team_Color = RED;
+int 		Team_Color = BLUE;
 std::deque<Ring> ring_queue;
 int 		Intake_Power = 0;
 

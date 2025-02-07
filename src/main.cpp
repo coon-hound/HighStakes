@@ -158,10 +158,10 @@ int main() {
 
     this_thread::sleep_for(10);
 
-    competition Competition;
+    // competition Competition;
 
-    Competition.autonomous(autonomousControl);
-    Competition.drivercontrol(userControl); 
+    // Competition.autonomous(autonomousControl);
+    // Competition.drivercontrol(userControl); 
 
 
     // Right_Power = 10;
@@ -216,16 +216,19 @@ int main() {
     // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(500, 0));
     // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(0, 500));
 
-    // BlueRing();
+    BlueRing();
+    // Odom.SetHeadingDegrees(145.60);
+    // PIDTurnAbsolute(0);
+
     // BlueMogo();
 
     // PIDTurn(185);
 
-   
+
 
     
     // while (1) {
-    //     ForwardWithCorrection(100, 30, 1.0, 10);
+ //     ForwardWithCorrection(100, 30, 1.0, 10);
     //     this_thread::sleep_for(10);
     // }
     // Right_Power = 0;

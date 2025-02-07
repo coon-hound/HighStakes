@@ -97,25 +97,25 @@ void odom::SetPosition(double new_x, double new_y, double new_heading_degrees) {
 void odom::SetCornerPosition() {
     double center_x = 0, center_y = 0;
 
-    if (heading >= 3 * M_PI / 2 && heading < 2 * M_PI){
+    if (heading >= 3.0 * M_PI / 2.0 && heading < 2.0 * M_PI){
         // Top Left
-        center_x = 1/4 * (2 * ROBOT_WIDTH * cos(heading) - 2 * ROBOT_LENGTH * sin(heading));
-        center_y = 1/4 * (-2 * ROBOT_LENGTH * cos(heading) + 2 * ROBOT_WIDTH * sin(heading) + 576);
+        center_x = 0.25 * (2.0 * ROBOT_WIDTH * cos(heading) - 2.0 * ROBOT_LENGTH * sin(heading));
+        center_y = 0.25 * (-2.0 * ROBOT_LENGTH * cos(heading) + 2.0 * ROBOT_WIDTH * sin(heading) + 576.0);
 
-    } else if (heading >= 0 && heading < M_PI/2) {
+    } else if (heading >= 0 && heading < M_PI/2.0) {
         // Top Right
-        center_x = 1/4 * (-2 * ROBOT_LENGTH * sin(heading) - 2 * ROBOT_WIDTH * cos(heading) + 576);
-        center_y = 1/4 * (-2 * ROBOT_LENGTH * cos(heading) + 2 * ROBOT_WIDTH * sin(heading) + 576);
+        center_x = 0.25 * (-2.0 * ROBOT_LENGTH * sin(heading) - 2.0 * ROBOT_WIDTH * cos(heading) + 576.0);
+        center_y = 0.25 * (-2.0 * ROBOT_LENGTH * cos(heading) + 2 * ROBOT_WIDTH * sin(heading) + 576.0);
 
-    } else if (heading >= M_PI/2 && heading < M_PI) {
+    } else if (heading >= M_PI/2.0 && heading < M_PI) {
         // Bottom Right
-        center_x = 1/4 * (-2 * ROBOT_LENGTH * sin(heading) + 2 * ROBOT_WIDTH * cos(heading) + 576);
-        center_y = 1/4 * (2 * ROBOT_WIDTH *  sin(heading) - 2 * ROBOT_LENGTH * cos(heading));
+        center_x = 0.25 * (-2.0 * ROBOT_LENGTH * sin(heading) + 2.0 * ROBOT_WIDTH * cos(heading) + 576.0);
+        center_y = 0.25 * (2.0 * ROBOT_WIDTH *  sin(heading) - 2.0 * ROBOT_LENGTH * cos(heading));
 
-    } else if (heading >= M_PI && heading < 3 * M_PI/2) {
+    } else if (heading >= M_PI && heading < 3.0 * M_PI/2.0) {
         // Bottom Left
-        center_x = 1/4 * (-2 * ROBOT_LENGTH * sin(heading) - 2 * ROBOT_WIDTH * cos(heading));
-        center_y = 1/4 * (-(ROBOT_LENGTH) * cos(heading) + ROBOT_LENGTH * cos(heading + 180) - 2 * ROBOT_WIDTH * sin(a));
+        center_x = 0.25 * (-2.0 * ROBOT_LENGTH * sin(heading) - 2.0 * ROBOT_WIDTH * cos(heading));
+        center_y = 0.25 * (-(ROBOT_LENGTH) * cos(heading) + ROBOT_LENGTH * cos(heading + 180.0) - 2.0 * ROBOT_WIDTH * sin(heading));
     }
 
 
