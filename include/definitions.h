@@ -124,4 +124,16 @@ extern void MoveMotor(motor m, int pct);
 extern pneumatics  Mogomech;
 extern bool Toggle_Mogo;
 
+enum auton_strategy {
+    BRing,
+    BAWP,
+    BMogo,
+    RRing,
+    RAWP,
+    RMogo,
+    ASkills
+};
+
+extern auton_strategy auton_strat;
+
 #endif

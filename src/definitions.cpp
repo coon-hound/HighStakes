@@ -62,6 +62,8 @@ int 		Ladybrown_Arm_Height = -1;
 pneumatics	Mogomech(MOGO);   
 bool Toggle_Mogo = false;
 
+auton_strategy auton_strat = ASkills;
+
 void MoveMotor(motor m, int pct) {
 	m.spin(fwd, 128 * pct, voltageUnits::mV);	
 }

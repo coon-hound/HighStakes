@@ -315,6 +315,7 @@ void RedRing() {
 }
 
 void AutonSkills() {
+    Team_Color = RED;
     double target_heading = 0;
     double target_distance = 0;
 
