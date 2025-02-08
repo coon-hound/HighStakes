@@ -54,7 +54,7 @@ void autonomousControl() {
             break;
         case auton_strategy::RMogo:
             printf("Red Mogo\n");
-            // RedMogo();
+            RedMogo();
             break;
         case auton_strategy::RRing:
             printf("Red Ring\n");

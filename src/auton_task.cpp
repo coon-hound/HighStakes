@@ -209,102 +209,177 @@ void BlueRing() {
     }
 }
 
+void RedMogo() {
+    Team_Color = RED;
+    double target_heading = 0;
+    double target_distance = 0;
+
+    // Set starting position.  (122.80,38.18) becomes (144-122.80,38.18) = (21.20,38.18)
+    // Heading 251.29 becomes 360-251.29 = 108.71.
+    Odom.SetX(144.0 - 122.80);
+    Odom.SetY(38.18);
+    Odom.SetHeadingDegrees(360.0 - 251.29);
+
+    // The target (72,24) lies on the midline so it stays the same.
+    target_distance = Odom.GetDistanceToPoint(72, 24);
+
+    Intake_Power = 100;
+    // (The literal angle 0 becomes 360-0, i.e. 360, which is equivalent to 0.)
+    ForwardTillDestination(100, target_distance - 22, 360.0 - 0);
+    target_distance = Odom.GetDistanceToPoint(72, 24);
+    Toggle_Doinker = 1;
+    PIDForward(2);
+
+    Intake_Power = 0;
+    this_thread::sleep_for(100);
+
+    ForwardTillDestination(-100, 20, 360.0 - 0);
+    PIDForward(-5);
+    Toggle_Doinker = 0;
+    this_thread::sleep_for(250);
+
+    // Reintake mogo.
+    // Blue used (71,29) which now becomes (144-71,29) = (73,29).
+    target_heading = Odom.GetAngleToPointBack(144.0 - 71, 29);
+    printf("target_heading = %f\n", target_heading);
+    PIDTurn(target_heading);
+
+    // Score ring.
+    ForwardTillDestination(-60, 15, 360.0 - 0);
+    Intake_Power = 100;
+    Toggle_Mogo = 1;
+    this_thread::sleep_for(100);
+
+    // Blue used (144.0, 0.0) which becomes (144-144.0, 0.0) = (0,0)
+    target_heading = Odom.GetAngleToPoint(144.0 - 144.0, 0.0);
+    target_distance = Odom.GetDistanceToPoint(144.0 - 144.0, 0.0);
+    PIDTurn(target_heading);
+    ForwardTimer(80, 1500, 360.0 - 0);
+
+    // Second ring.
+    ForwardTimer(-50, 300, 360.0 - 0);
+    ForwardTimer(60, 750, 360.0 - 0);
+
+    // Third ring.
+    ForwardTimer(-50, 300, 360.0 - 0);
+    ForwardTimer(60, 750, 360.0 - 0);
+
+    Odom.SetCornerPosition();
+    printf("x = %f, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+    PIDForward(-10);
+
+    Intake_Power = -100;
+    this_thread::sleep_for(100);
+    Intake_Power = 100;
+
+    // Blue used (130.0,30.0) which now becomes (144-130.0,30.0) = (14,30)
+    target_heading = Odom.GetAngleToPoint(144.0 - 130.0, 30.0);
+    target_distance = Odom.GetDistanceToPoint(144.0 - 130.0, 30.0);
+    PIDTurn(target_heading);
+    this_thread::sleep_for(500);
+    Toggle_Mogo = 0;
+    Intake_Power = 100;
+    PIDForward(target_distance + 15);
+    Intake_Power = 0;
+
+    // Blue used (96,48) which now becomes (144-96,48) = (48,48)
+    target_heading = Odom.GetAngleToPointBack(144.0 - 96, 48);
+    target_distance = Odom.GetDistanceToPoint(144.0 - 96, 48);
+    PIDTurn(target_heading);
+    ForwardTillDestination(-30, target_distance - 5, 360.0 - 0);
+    Intake_Power = 100;
+    Toggle_Mogo = 1;
+
+    PIDForward(5);
+
+    // Blue used (100,25) which becomes (144-100,25) = (44,25)
+    target_heading = Odom.GetAngleToPoint(144.0 - 100, 25);
+    target_distance =  Odom.GetDistanceToPoint(144.0 - 100, 25);
+    PIDTurn(target_heading);
+    PIDForward(target_distance);
+
+    while (!Controller.ButtonDown.pressing()) {
+        this_thread::sleep_for(10);
+    }
+}
+
 void RedRing() {
     Team_Color = RED;
     double target_heading = 0;
     double target_distance = 0;
 
-    Odom.SetX(132.58);
+    // Set starting position.  (132.58,85.70) becomes (144-132.58,85.70) = (11.42,85.70)
+    Odom.SetX(144.0 - 132.58);
     Odom.SetY(85.70);
-    Odom.SetHeadingDegrees(149.74);
+    // Set heading 149.74 becomes 360-149.74 = 210.26.
+    Odom.SetHeadingDegrees(360.0 - 149.74);
 
     Ladybrown_Power = 100;
     this_thread::sleep_for(300);
     PIDForward(-10);
     Ladybrown_Power = -100;
 
+    // Blue used (96,96) which becomes (144-96,96) = (48,96)
+    target_heading = Odom.GetAngleToPointBack(144.0 - 96, 96);
+    target_distance = Odom.GetDistanceToPoint(144.0 - 96, 96);
+    // Note: the blue routine did “PIDTurn(target_heading + 5);”
+    // In the mirror the offset becomes –5.
+    PIDTurn(target_heading - 5);
+    ForwardTillDestination(-60, target_distance - 20, 360.0 - 0);
 
-    target_heading = Odom.GetAngleToPointBack(96, 96);
-    target_distance = Odom.GetDistanceToPoint(96, 96);
-
-    PIDTurn(target_heading + 5);
-    ForwardTillDestination(-60, target_distance - 20, 0);
-    // score ring
-    ForwardTillDestination(-30, 18, 0);
+    // Score ring.
+    ForwardTillDestination(-30, 18, 360.0 - 0);
     Intake_Power = 100;
     Toggle_Mogo = 1;
-
     PIDForward(8);
 
-    target_heading = Odom.GetAngleToPoint(75, 120);
-    target_distance = Odom.GetDistanceToPoint(75, 120);
-
+    // Blue used (75,120) which becomes (144-75,120) = (69,120)
+    target_heading = Odom.GetAngleToPoint(144.0 - 75, 120);
+    target_distance = Odom.GetDistanceToPoint(144.0 - 75, 120);
     PIDTurn(target_heading);
     PIDForward(target_distance - 11);
 
-    PIDTurnAbsolute(0);
+    PIDTurnAbsolute(360.0 - 0);
     Intake_Power = 100;
-    ForwardTillDestination(70, 9, 0);
-    // move backward so I turn into the wall fucking up everything 
+    ForwardTillDestination(70, 9, 360.0 - 0);
     PIDForward(5);
     PIDForward(-5);
-    // ForwardTillDestination(-30, 5, 0);
 
-    target_heading = Odom.GetAngleToPoint(96, 120);
-    target_distance = Odom.GetDistanceToPoint(96, 120);
-
+    // Blue used (96,120) which becomes (144-96,120) = (48,120)
+    target_heading = Odom.GetAngleToPoint(144.0 - 96, 120);
+    target_distance = Odom.GetDistanceToPoint(144.0 - 96, 120);
     PIDTurn(target_heading);
-    ForwardTillDestination(50, target_distance, 0);
+    ForwardTillDestination(50, target_distance, 360.0 - 0);
 
-    target_heading = Odom.GetAngleToPoint(125, 138.3);
-    target_distance = Odom.GetDistanceToPoint(125, 138.3);
-
-    // PIDTurn(target_heading);
-    // printf("curr_heading = %f\n", Odom.GetHeadingDegrees());
-    // ForwardTillDestination(50, target_distance - 5, 0);
-
-    // ForwardTimer(30, 1000, 0);
-    ForwardTimer(80, 1500, -5);
-
+    // Blue used (125,138.3) which becomes (144-125,138.3) = (19,138.3)
+    target_heading = Odom.GetAngleToPoint(144.0 - 125, 138.3);
+    target_distance = Odom.GetDistanceToPoint(144.0 - 125, 138.3);
+    // (Any commented‐out code omitted.)
+    // Blue called ForwardTimer(80,1500,-5); here –5 becomes 360–(–5)=365, which is equivalent to 5.
+    ForwardTimer(80, 1500, 5);
     printf("after 1st curr_heading = %f\n", Odom.GetHeadingDegrees());
 
-    // second ring
-    // ForwardTillDestination(-40, 7, 0); 
-    // PIDForward(-7);
-    ForwardTimer(-50, 300, 0);
+    // Second ring.
+    ForwardTimer(-50, 300, 360.0 - 0);
+    ForwardTimer(60, 750, 360.0 - 0);
 
-    ForwardTimer(60, 750, 0);
+    // Third ring.
+    ForwardTimer(-50, 300, 360.0 - 0);
+    ForwardTimer(60, 750, 360.0 - 0);
 
-    // third ring
-    // ForwardTillDestination(-40, 7, 0); 
-    ForwardTimer(-50, 300, 0);
-    // PIDForward(-7);
-    ForwardTimer(60, 750, 0);
-
-    Odom.SetCornerPosition(); 
-    printf("x = %f, y = %f, heading%f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
-
+    Odom.SetCornerPosition();
+    printf("x = %f, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
     PIDForward(-10);
 
-    // PIDForward(-16);
-    // PIDTurnAbsolute(172);
-
-    // Odom.SetX(126);
-    // Odom.SetY(127);
-
-
-    target_heading = Odom.GetAngleToPoint(120, 72);
-    target_distance = Odom.GetDistanceToPoint(120, 72);
-
+    // Blue used (120,72) which becomes (144-120,72) = (24,72)
+    target_heading = Odom.GetAngleToPoint(144.0 - 120, 72);
+    target_distance = Odom.GetDistanceToPoint(144.0 - 120, 72);
     PIDTurn(target_heading);
-
     printf("target_heading %f\n", target_heading);
     printf("final_heading = %f\n", Odom.GetHeadingDegrees());
 
     Toggle_Intake_Lift = 1;
-
-    ForwardTillDestination(100, target_distance + 10, 0);
-
+    ForwardTillDestination(100, target_distance + 10, 360.0 - 0);
     Toggle_Intake_Lift = 0;
     this_thread::sleep_for(500);
     PIDForward(-10);
@@ -313,6 +388,7 @@ void RedRing() {
         this_thread::sleep_for(10);
     }
 }
+
 
 void AutonSkills() {
     Team_Color = RED;
