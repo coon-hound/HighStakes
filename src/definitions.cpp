@@ -34,12 +34,12 @@ double prev_right_position = 0;
 double prev_left_position = 0;
 
 PID			Forward_PID(6.5, 25.0, 30.0, -100, 100, 1.0, 100.0, 20.0, 0.2);			
-PID 		Turn_PID(4.00, 10.0, 30.0, -100, 100, 3, 100.0, 20.0, 0.2);
+PID 		Turn_PID(4.00, 10.0, 30.0, -100, 100, 3, 100.0, 20.0, 0.1);
 // PID 		Turn_PID(3.50, 0.0, 30.0, -100, 100, 3);
 pneumatics  Intake_Lift(INTAKE_LIFT);
 bool Toggle_Intake_Lift = false;
 
-int 		Team_Color = BLUE;
+int 		Team_Color = RED;
 std::deque<Ring> ring_queue;
 int 		Intake_Power = 0;
 

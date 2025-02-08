@@ -341,6 +341,22 @@ void PIDDrift(double target_heading_degrees, double bias) {
         this_thread::sleep_for(10);
     }
 }
+
+void MoveToPoint(double x, double y, double power, double buffer, bool backwards, double target_heading, double target_distance) {
+
+    if (backwards == true){
+        target_heading = Odom.GetAngleToPointBack(x, y);
+
+    } else{
+        target_heading = Odom.GetAngleToPoint(x, y);
+    }
+
+    target_distance = Odom.GetDistanceToPoint(x, y);
+
+    PIDTurn(target_heading);
+    ForwardTillDestination(power, target_distance - (buffer + 5), 0);
+    PIDForward(buffer);
+}
 // drift
 /*
 	double heading;

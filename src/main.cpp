@@ -216,7 +216,20 @@ int main() {
     // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(500, 0));
     // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(0, 500));
 
-    BlueRing();
+    AutonSkills_v2();
+    
+    /*
+    double target_heading = 0;
+    double target_distance = 0;
+
+    Odom.SetX(17);
+    Odom.SetY(72);
+    Odom.SetHeadingDegrees(270);
+    Turn_PID.setGains(4.0, 10.0, 35);
+
+    PIDTurnAbsolute(0);
+    */
+
     // Odom.SetHeadingDegrees(145.60);
     // PIDTurnAbsolute(0);
 

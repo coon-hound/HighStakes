@@ -314,8 +314,7 @@ void RedRing() {
     }
 }
 
-
-void AutonSkills() {
+void AutonSkills_v2() {
     double target_heading = 0;
     double target_distance = 0;
 
@@ -323,11 +322,10 @@ void AutonSkills() {
     Odom.SetY(72);
     Odom.SetHeadingDegrees(270);
 
-    // Score Wall Stake
     Ladybrown_Power = 100;
-    this_thread::sleep_for(500);
-    Ladybrown_Power = -100;
+    this_thread::sleep_for(300);
     PIDForward(-10);
+    Ladybrown_Power = -100;
     
     // 24, 48 (Mogo)
     target_heading = Odom.GetAngleToPointBack(24, 48);
@@ -342,7 +340,7 @@ void AutonSkills() {
     target_heading = Odom.GetAngleToPoint(48, 48);
     target_distance = Odom.GetDistanceToPoint(48, 48);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
+    ForwardTillDestination(80, target_distance - 10, 0);
     PIDForward(5);
     this_thread::sleep_for(100);
 
@@ -350,14 +348,15 @@ void AutonSkills() {
     target_heading = Odom.GetAngleToPoint(72, 72);
     target_distance = Odom.GetDistanceToPoint(72, 72);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 7, 0);
+    ForwardTillDestination(80, target_distance - 7, 0);
     PIDForward(5);
 
     // 96, 48
+    this_thread::sleep_for(100);
     target_heading = Odom.GetAngleToPoint(96, 48);
     target_distance = Odom.GetDistanceToPoint(96, 48);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
+    ForwardTillDestination(80, target_distance - 10, 0);
     PIDForward(5);
 
     // 96, 24
@@ -365,17 +364,18 @@ void AutonSkills() {
     target_distance = Odom.GetDistanceToPoint(96, 24);
     PIDTurn(target_heading);
     this_thread::sleep_for(250);
-    PIDForward(10);
+    // PIDForward(10);
+     
+    ForwardTillDestination(80, target_distance - 10, 0);
     macro_mode = 1;
-    Ladybrown_Arm_Height = LOAD_HEIGHT; 
-    ForwardTillDestination(60, target_distance - 10, 0);
-    PIDForward(2);
+    Ladybrown_Arm_Height = LOAD_HEIGHT;
+    PIDForward(5);
 
     // 72, 12
     target_heading = Odom.GetAngleToPoint(72, 12);
     target_distance = Odom.GetDistanceToPoint(72, 12);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
+    ForwardTillDestination(80, target_distance - 10, 0);
     PIDForward(5);
     PIDTurnAbsolute(180);
 
@@ -384,53 +384,289 @@ void AutonSkills() {
     // Lady Brown Wall Stake
 
     // Wall stakes alignment - y: 10.43 x: 72 heading:180 (close)
-    Odom.SetX(72);
-    Odom.SetY(10.43);
-    Odom.SetHeadingDegrees(180);
-
+    printf("1 x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
     Intake_Power = 0;
     macro_mode = 0;
     Ladybrown_Power = 100;
-    this_thread::sleep_for(500);
+    this_thread::sleep_for(600);
     macro_mode = 1;
     Ladybrown_Arm_Height = LOAD_HEIGHT; 
     this_thread::sleep_for(100);
     Intake_Power = 100;
     PIDForward(-10);
     ForwardTimer(30, 500, 0);
+
+    printf(" 3x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+
+    Odom.SetX(72);
+    Odom.SetY(10.43);
+    //Odom.SetHeadingDegrees(180);
+
     macro_mode = 0;
     Ladybrown_Power = 100;
-    this_thread::sleep_for(500);
+    this_thread::sleep_for(600);
     Ladybrown_Power = -100;
     this_thread::sleep_for(100);
+
+    // 72, 12
+    MoveToPoint(72, 12, 60, 5, true);
+
+    // 24, 12
+    MoveToPoint(24, 12);
+
+    // 24, 24
+    MoveToPoint(24, 24);
+
+    // 12, 24
+    MoveToPoint(12, 24);
+
+    // 10, 10
+    MoveToPoint(10, 10, 60, 5, true);
+    Toggle_Mogo = 0;
+
+    // 48, 24
+    MoveToPoint(48, 24);
+    
+    this_thread::sleep_for(250);
+    Intake_Power = 0;
+
+    // 24, 96
+    MoveToPoint(24, 96, 60, 5, true);
+
+    Toggle_Mogo = 1;
+    Intake_Power = 100;
+
+    // 48, 96
+    MoveToPoint(48, 96);
+
+    // 48, 120
+    MoveToPoint(48, 120);
+
+    // 24, 120
+    MoveToPoint(24, 120);
+
+    // 12, 120
+    MoveToPoint(12, 120);
+
+    // 24, 132
+    MoveToPoint(24, 132);
+
+    // 10, 134
+    MoveToPoint(10, 134, 60, 5, true);
+    Toggle_Mogo = 0;
+
+    macro_mode = 1;
+    Ladybrown_Arm_Height = LOAD_HEIGHT;
+
+
+    // 96, 120
+    MoveToPoint(96, 120);
+
+    // 72, 120
+    MoveToPoint(72, 120);
+
+    // 72, 143
+    MoveToPoint(72, 140);
+
+    ForwardTimer(60, 500, 0);
+    // Wall stakes alignment - x: 72 y: 133.57 heading:0 (far)
+    printf("1 x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+    Intake_Power = 0;
+    macro_mode = 0;
+    Ladybrown_Power = 100;
+    this_thread::sleep_for(600);
+    macro_mode = 1;
+    Ladybrown_Arm_Height = LOAD_HEIGHT; 
+    this_thread::sleep_for(100);
+    Intake_Power = 100;
+    PIDForward(-10);
+    ForwardTimer(30, 500, 0);
+
+    printf(" 3x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+
+    Odom.SetX(72);
+    Odom.SetY(133.57);
+    //Odom.SetHeadingDegrees(180);
+
+    macro_mode = 0;
+    Ladybrown_Power = 100;
+    this_thread::sleep_for(600);
+    Ladybrown_Power = -100;
+    this_thread::sleep_for(100);
+
     PIDForward(-10);
 
-    // 120, 12
-    target_heading = Odom.GetAngleToPoint(120, 12);
-    target_distance = Odom.GetDistanceToPoint(120, 12);
+    //96 ,96
+    MoveToPoint(96, 96);
+
+    // 144, 72
+    MoveToPoint(144, 72);
+
+    // Alliance stakes alignment - x: 133.57 y: 72 heading:90 (right)
+    PIDForward(-7.57); // Align with Alliance Stake
+
+    Odom.SetX(126);
+    Odom.SetY(72);
+    //Odom.SetHeadingDegrees(180);
+
+    Ladybrown_Power = 100;
+    this_thread::sleep_for(300);
+    PIDForward(-10);
+    Ladybrown_Power = -100;
+    Toggle_Mogo = 1;
+
+    // 120, 120
+    MoveToPoint(120, 120);
+    
+    // 132, 120
+    MoveToPoint(132, 120);
+
+    // 120, 132
+    MoveToPoint(120, 132);
+
+    // 144, 144
+    MoveToPoint(144, 144, 60, 5, true);
+
+
+
+
+
+
+}
+
+void AutonSkills_v1() {
+    double target_heading = 0;
+    double target_distance = 0;
+
+    Odom.SetX(17);
+    Odom.SetY(72);
+    Odom.SetHeadingDegrees(270);
+
+    Ladybrown_Power = 100;
+    this_thread::sleep_for(300);
+    PIDForward(-10);
+    Ladybrown_Power = -100;
+    
+    // 24, 48 (Mogo)
+    target_heading = Odom.GetAngleToPointBack(24, 48);
+    target_distance = Odom.GetDistanceToPoint(24, 48);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
+    ForwardTillDestination(-30, 15, 0);
+    Intake_Power = 100;
+    Toggle_Mogo = 1;
+    PIDForward(-5);
+
+    // 48, 48
+    target_heading = Odom.GetAngleToPoint(48, 48);
+    target_distance = Odom.GetDistanceToPoint(48, 48);
+    PIDTurn(target_heading);
+    ForwardTillDestination(80, target_distance - 10, 0);
+    PIDForward(5);
+    this_thread::sleep_for(100);
+
+    // 72, 72
+    target_heading = Odom.GetAngleToPoint(72, 72);
+    target_distance = Odom.GetDistanceToPoint(72, 72);
+    PIDTurn(target_heading);
+    ForwardTillDestination(80, target_distance - 7, 0);
     PIDForward(5);
 
-    // 120, 24
-    target_heading = Odom.GetAngleToPoint(120, 24);
-    target_distance = Odom.GetDistanceToPoint(120, 24);
+    // 96, 48
+    this_thread::sleep_for(100);
+    target_heading = Odom.GetAngleToPoint(96, 48);
+    target_distance = Odom.GetDistanceToPoint(96, 48);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
+    ForwardTillDestination(80, target_distance - 10, 0);
+    PIDForward(5);
+
+    // 96, 24
+    target_heading = Odom.GetAngleToPoint(96, 24);
+    target_distance = Odom.GetDistanceToPoint(96, 24);
+    PIDTurn(target_heading);
+    this_thread::sleep_for(250);
+    // PIDForward(10);
+     
+    ForwardTillDestination(80, target_distance - 10, 0);
+    macro_mode = 1;
+    Ladybrown_Arm_Height = LOAD_HEIGHT;
+    PIDForward(5);
+
+    // 72, 12
+    target_heading = Odom.GetAngleToPoint(72, 12);
+    target_distance = Odom.GetDistanceToPoint(72, 12);
+    PIDTurn(target_heading);
+    ForwardTillDestination(80, target_distance - 10, 0);
+    PIDForward(5);
+    PIDTurnAbsolute(180);
+
+    ForwardTimer(30, 1000, 0);
+
+    // Lady Brown Wall Stake
+
+    // Wall stakes alignment - y: 10.43 x: 72 heading:180 (close)
+    printf("1 x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+    Intake_Power = 0;
+    macro_mode = 0;
+    Ladybrown_Power = 100;
+    this_thread::sleep_for(600);
+    macro_mode = 1;
+    Ladybrown_Arm_Height = LOAD_HEIGHT; 
+    this_thread::sleep_for(100);
+    Intake_Power = 100;
+    PIDForward(-10);
+    ForwardTimer(30, 500, 0);
+
+    printf(" 3x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+
+    macro_mode = 0;
+    Ladybrown_Power = 100;
+    this_thread::sleep_for(600);
+    Ladybrown_Power = -100;
+    this_thread::sleep_for(100);
+
+    Odom.SetX(72);
+    Odom.SetY(10.43);
+    //Odom.SetHeadingDegrees(180);
+
+    PIDForward(-10);
+    printf(" 4x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+
+    // 96, 24
+    target_heading = Odom.GetAngleToPoint(96, 24);
+    target_distance = Odom.GetDistanceToPoint(96, 24);
+    PIDTurn(target_heading);
+    ForwardTillDestination(80, target_distance  - 10, 0);
     PIDForward(5);
 
     // 132, 24
     target_heading = Odom.GetAngleToPoint(132, 24);
     target_distance = Odom.GetDistanceToPoint(132, 24);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
+    ForwardTillDestination(40, target_distance  - 8, 0);
     PIDForward(5);
 
-    // 136, 12 (Clear Corner)
-    target_heading = Odom.GetAngleToPoint(136, 12);
-    target_distance = Odom.GetDistanceToPoint(136, 12);
+    PIDForward(-10);
+
+    // 120, 12
+    target_heading = Odom.GetAngleToPoint(120, 12);
+    target_distance = Odom.GetDistanceToPoint(120, 12);
     PIDTurn(target_heading);
-    PIDForward(target_distance - 7);
+    ForwardTillDestination(80, target_distance - 10, 0);
+    PIDForward(5);
+    PIDForward(-8);
+
+    // 144, 0
+    target_heading = Odom.GetAngleToPoint(144, 0);
+    PIDTurn(target_heading); 
+    
+    ForwardTimer(80, 1000, 0);
+
+    Odom.SetCornerPosition();
+
+    Intake_Power = -100;
+
+    // 136, 12 (Clear Corner)
+    PIDForward(-8);
     this_thread::sleep_for(50);
     Toggle_Doinker = 1;
     this_thread::sleep_for(300);
@@ -438,35 +674,37 @@ void AutonSkills() {
     PIDTurnAbsolute(0);
     Turn_PID.setGains(4, 10, 30);
     Toggle_Doinker = 0;
+    PIDForward(5);
 
     // Release Mogo Bottom Right
-    target_heading = Odom.GetAngleToPointBack(144, 6);
-    target_distance = Odom.GetDistanceToPoint(144, 6);
+    target_heading = Odom.GetAngleToPointBack(140, 4);
+    target_distance = Odom.GetDistanceToPoint(140, 4);
     PIDTurn(target_heading);
     ForwardTillDestination(-60, target_distance - 5, 0);
     Toggle_Mogo = 0;
     PIDForward(10);
 
+    Intake_Power = 100;
+
     //72, 72
     target_heading = Odom.GetAngleToPoint(72, 72);
     target_distance = Odom.GetDistanceToPoint(72, 72);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
+    ForwardTillDestination(60, target_distance - 15, 0);
     PIDForward(5);
-
-    macro_mode = 1;
-    Ladybrown_Arm_Height = LOAD_HEIGHT; 
 
     // 96, 96
     target_heading = Odom.GetAngleToPoint(96, 96);
     target_distance = Odom.GetDistanceToPoint(96, 96);
     PIDTurn(target_heading);
     ForwardTillDestination(60, target_distance - 10, 0);
+    macro_mode = 1;
+    Ladybrown_Arm_Height = LOAD_HEIGHT; 
     PIDForward(5);
 
-    // 72 132
-    target_heading = Odom.GetAngleToPoint(72, 132);
-    target_distance = Odom.GetDistanceToPoint(72, 132);
+    // 72 120
+    target_heading = Odom.GetAngleToPoint(72, 120);
+    target_distance = Odom.GetDistanceToPoint(72, 120);
     PIDTurn(target_heading);
     ForwardTillDestination(60, target_distance - 10, 0);
     PIDForward(5);
@@ -475,71 +713,85 @@ void AutonSkills() {
     PIDTurn(target_heading);
     ForwardTimer(30, 500, 0);
 
-    // Wall stakes alignment - y: 133.57 x: 72 heading: 0 (far side)
-    Odom.SetX(72);
-    Odom.SetY(133.57);
-    Odom.SetHeadingDegrees(0);
-
+    // Wall stakes alignment - y: 133.62 x: 72 heading:0 (far)
+    printf("1 x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
     Intake_Power = 0;
     macro_mode = 0;
     Ladybrown_Power = 100;
-    this_thread::sleep_for(500);
+    this_thread::sleep_for(600);
     macro_mode = 1;
     Ladybrown_Arm_Height = LOAD_HEIGHT; 
     this_thread::sleep_for(100);
     Intake_Power = 100;
     PIDForward(-10);
     ForwardTimer(30, 500, 0);
+
+    printf(" 3x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
+
     macro_mode = 0;
     Ladybrown_Power = 100;
-    this_thread::sleep_for(500);
-    macro_mode = 1;
-    Ladybrown_Arm_Height = LOAD_HEIGHT; 
+    this_thread::sleep_for(600);
+    Ladybrown_Power = -100;
     this_thread::sleep_for(100);
+
+    Odom.SetX(72);
+    Odom.SetY(133.62);
+    //Odom.SetHeadingDegrees(180);
+
     PIDForward(-10);
+    printf(" 4x = %f\n, y = %f, heading = %f\n", Odom.GetX(), Odom.GetY(), Odom.GetHeadingDegrees());
 
-    // 120, 132
-    target_heading = Odom.GetAngleToPoint(120, 132);
-    target_distance = Odom.GetDistanceToPoint(120, 132);
+    // 96, 96
+    target_heading = Odom.GetAngleToPointBack(96, 96);
+    target_distance = Odom.GetDistanceToPoint(96, 96);
     PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
-    PIDForward(5);
+    ForwardTillDestination(-60, target_distance - 10, 0);
+    PIDForward(-5);
 
-    // 132, 120
-    target_heading = Odom.GetAngleToPoint(132, 120);
-    target_distance = Odom.GetDistanceToPoint(132, 120);
-    PIDTurn(target_heading);
-    ForwardTillDestination(60, target_distance - 10, 0);
-    PIDForward(5);
-
-    // 96, 132
-    target_heading = Odom.GetAngleToPointBack(96, 132);
-    target_distance = Odom.GetDistanceToPoint(96, 132);
+    // 132, 96
+    target_heading = Odom.GetAngleToPointBack(132, 96);
+    target_distance = Odom.GetDistanceToPoint(132, 96);
     PIDTurn(target_heading);
     ForwardTillDestination(-60, target_distance - 10, 0);
     PIDForward(-5);
     Toggle_Mogo = 1;
 
+    // Clearing Top Right Corner
     // 136, 136
     target_heading = Odom.GetAngleToPoint(136, 136);
     target_distance = Odom.GetDistanceToPoint(136, 136);
     PIDTurn(target_heading);
     ForwardTillDestination(60, target_distance - 10, 0);
-    PIDForward(5);
+
+    // 144, 144
+    target_heading = Odom.GetAngleToPoint(144, 144);
+    target_distance = Odom.GetDistanceToPoint(144, 144);
+
+    ForwardTimer(60, 500, 0);
+
+    Odom.SetCornerPosition();
+
+    /*
+    // 136, 12 (Clear Corner)
+    PIDForward(-8);
     this_thread::sleep_for(50);
     Toggle_Doinker = 1;
     this_thread::sleep_for(300);
-
-    // 140, 140
-    target_heading = Odom.GetAngleToPointBack(140, 140);
-    target_distance = Odom.GetDistanceToPoint(140, 140);
     Turn_PID.setGains(6, 15, 30);
-    PIDTurn(target_heading);
+    PIDTurnAbsolute(270);
     Turn_PID.setGains(4, 10, 30);
     Toggle_Doinker = 0;
-    ForwardTillDestination(-60, target_distance - 10, 0);
-    PIDForward(-5);
+    */ 
+
+   PIDForward(-8);
+
+    // Release Mogo Top Right
+    target_heading = Odom.GetAngleToPointBack(140, 140);
+    target_distance = Odom.GetDistanceToPoint(140, 140);
+    PIDTurn(target_heading);
+    ForwardTillDestination(-60, target_distance - 5, 0);
     Toggle_Mogo = 0;
+    PIDForward(10);
 
     // 132, 72
     target_heading = Odom.GetAngleToPoint(132, 72);
@@ -548,31 +800,10 @@ void AutonSkills() {
     ForwardTillDestination(60, target_distance - 10, 0);
     PIDForward(5);
 
-    // 144, 72
-    target_heading = Odom.GetAngleToPoint(144, 72);
-    target_distance = Odom.GetDistanceToPoint(144, 72);
-    PIDTurn(target_heading);
-    ForwardTimer(30, 500, 0);
-
-    Intake_Power = 0;
-    macro_mode = 0;
-    Ladybrown_Power = 100;
-    this_thread::sleep_for(500);
-    macro_mode = 1;
-    Ladybrown_Arm_Height = LOAD_HEIGHT; 
-    this_thread::sleep_for(100);
-    Intake_Power = 100;
-    PIDForward(-10);
-    ForwardTimer(30, 500, 0);
-    macro_mode = 0;
-    Ladybrown_Power = 100;
-    this_thread::sleep_for(500);
-    Ladybrown_Power = -100; 
-    this_thread::sleep_for(100);
-    PIDForward(-10);
-
     // 120, 72 (Get Mogo)
-    PIDForward(-2);
+    Odom.GetAngleToPointBack(96, 72);
+    PIDTurn(target_heading);
+    PIDForward(-15);
     Toggle_Mogo = 1;
 
     // 96, 120
@@ -680,3 +911,4 @@ void AutonSkills() {
     ForwardTillDestination(-60, target_distance, 0);
 
 }
+

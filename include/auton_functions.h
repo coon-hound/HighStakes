@@ -11,4 +11,5 @@ void PIDTurn(double target_heading_degrees);
 void PIDTurnAbsolute(double target_heading_degrees);
 void PIDDrift(double target_heading_degrees, double bias);
 
+void MoveToPoint(double x, double y, double power = 60, double buffer = 5, bool backwards = false, double target_heading = 0, double target_distance = 0);
 #endif
