@@ -17,11 +17,14 @@
 
 using namespace vex;
 
+competition Competition;
+
 thread HOOK_HELPER(hook_helper_thread);
 thread HOOKS(hook_thread);
 thread LADYBROWN(lb_thread);
 thread DRIVETRAIN(drivetrain_thread);
 thread ODOM(odom_thread);
+
 
 /*
 1st enter the program without plugging into competition controller
@@ -36,7 +39,7 @@ thread ODOM(odom_thread);
 // 6 rings on the negative wall stake
 
 void autonomousControl() {
-
+    AutonSkills();
 }
 
 void userControl() {
@@ -158,81 +161,10 @@ int main() {
 
     this_thread::sleep_for(10);
 
-    // competition Competition;
 
-    // Competition.autonomous(autonomousControl);
-    // Competition.drivercontrol(userControl); 
+    Competition.autonomous(autonomousControl);
+    Competition.drivercontrol(userControl); 
 
-
-    // Right_Power = 10;
-    // Left_Power = 10;
-    // this_thread::sleep_for(2000);
-    // PIDForward(-10);
-    
-    // PIDTurn(90);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(90);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(90);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(90);
-
-    // this_thread::sleep_for(5000);
-    // PIDTurn(-90);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(-90);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(-90);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(-90);
-
-
-    // this_thread::sleep_for(5000);
-    // PIDTurn(30);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(60);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(90);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(180);
-
-    // this_thread::sleep_for(1000);
-    // PIDTurn(-30);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(-60);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(-90);
-    // this_thread::sleep_for(1000);
-    // PIDTurn(180);
-
-    // PIDForward(10);
-
-
-    // ForwardTillDestination(20, 28, -50);
-
-    // printf("heading = %f\n", Odom.GetHeadingDegrees());
-    // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(0, -500));
-    // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(-500, 0));
-    // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(500, 0));
-    // printf(" calcualted angle = %f\n", Odom.GetAngleToPoint(0, 500));
-
-    BlueRing();
-    // Odom.SetHeadingDegrees(145.60);
-    // PIDTurnAbsolute(0);
-
-    // BlueMogo();
-
-    // PIDTurn(185);
-
-
-
-    
-    // while (1) {
- //     ForwardWithCorrection(100, 30, 1.0, 10);
-    //     this_thread::sleep_for(10);
-    // }
-    // Right_Power = 0;
-    // Left_Power = 0;
 
     bool prev_l1_state = false;
     bool prev_l2_state = false;

@@ -4,7 +4,10 @@
 void AutonSkills();
 void BlueMogo();
 void BlueRing();
+// void 
 
 void RedRing();
+// void RedMogo();
+// void RedAWP();
 
 #endif // AUTON_TASK_H

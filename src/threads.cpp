@@ -30,7 +30,7 @@ int hook_helper_thread() {
         }
 
 // 650 - 950
-        
+
         if (!ring_queue.empty() && ring_queue.front().getPos() > 400 && ring_queue.front().getPos() < 950) {
             // always take the second reading of color to ensure accuracy
             int hue = Color.hue();
@@ -292,3 +292,14 @@ int odom_thread() {
     }
     return 0;
 }
+
+/*
+    finish programming
+    finish auton routing and routes
+    finish meeting notes
+    finish talbe of contents
+    look at history and find all the tabs that have been editted since 4pm, and 
+    get rid of all blank pages after printing
+    number each page 
+    binder it
+*/
