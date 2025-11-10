@@ -84,7 +84,7 @@ void ForwardTillDestination(double forward_power, double target_distance, double
 
 		double distance_to_target = target_distance - current_distance;
 
-		ForwardWithCorrection(sign(distance_to_target) * forward_power, target_heading);
+		ForwardWithCorrection(sign(distance_to_target) * forward_power, target_heading, kp, P_max);
 
 
 		this_thread::sleep_for(10);
@@ -106,7 +106,7 @@ void ForwardTimer(double forward_power, int time_ms, double target_heading, doub
 		curr_left_position = Odom.encoder_to_inches(left_motor_pos);
 		curr_right_position = Odom.encoder_to_inches(right_motor_pos);
 
-		ForwardWithCorrection(forward_power, target_heading);
+		ForwardWithCorrection(forward_power, target_heading, kp, P_max);
 
 		this_thread::sleep_for(10);
 	}
@@ -145,10 +145,10 @@ void Forward(double forward_power, double correction_distance, double pid_distan
 void PIDTurn(double target_heading_degrees) {
     double initial_heading = Odom.GetHeadingDegrees();
     
-    // Calculate relative angle to turn
+    // calculate relative angle to turn
     double angle_difference = target_heading_degrees;
     
-    // Normalize to -180 to +180
+    // normalize to -180 to +180
     while (angle_difference > 180) angle_difference -= 360;
     while (angle_difference < -180) angle_difference += 360;
 
@@ -220,11 +220,9 @@ void PIDTurn(double target_heading_degrees) {
 void PIDTurnAbsolute(double target_heading_degrees) {
     double current_heading = Odom.GetHeadingDegrees();
     
-    // Normalize target heading to 0-360 range
     target_heading_degrees = fmod(target_heading_degrees, 360);
     if (target_heading_degrees < 0) target_heading_degrees += 360;
     
-    // Calculate the shortest path to target
     double angle_difference = target_heading_degrees - current_heading;
     if (angle_difference > 180) {
         angle_difference -= 360;
